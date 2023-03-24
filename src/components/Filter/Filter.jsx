@@ -1,10 +1,10 @@
 import React from 'react';
-import { FilterLabel, FilterInput } from './Filter.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from 'redux/filterSlice';
-import { getFilter } from 'redux/selectors';
+import { setFilter } from 'redux/filter/filterSlice';
+import { getFilter } from 'redux/filter/filterSelectors';
+import { FilterArea } from './Filter.styled';
 
-const Filter = () => {
+export const Filter = () => {
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
 
@@ -13,16 +13,9 @@ const Filter = () => {
   };
 
   return (
-    <FilterLabel>
-      Magic Finder
-      <FilterInput
-        type="text"
-        value={filter}
-        onChange={changeFilter}
-        name="filter"
-      />
-    </FilterLabel>
+    <FilterArea>
+      Magic Finder! Enter the search query
+      <input type="text" value={filter} onChange={changeFilter} name="filter" />
+    </FilterArea>
   );
 };
-
-export default Filter;

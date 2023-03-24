@@ -1,28 +1,33 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Contacts } from './ContactsList.styled';
+import { useFetchContactsQuery } from 'redux/contacts/contactsSlice';
 import { ContactsListItem } from 'components/ContactListItem/ContactListItem';
-import { getFilter, getContacts } from 'redux/selectors';
+import { getFilter } from 'redux/filter/filterSelectors';
 
-const ContactsList = () => {
-  const contacts = useSelector(getContacts);
+export const ContactsList = () => {
+  const { data: contacts } = useFetchContactsQuery();
   const filter = useSelector(getFilter);
-  const normalizedFilter = filter.toLowerCase();
-  const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
 
-  return contacts.length === 0 ? (
-    `No contacts yet`
-  ) : visibleContacts.length === 0 ? (
-    `No matches founded`
-  ) : (
-    <Contacts>
-      {visibleContacts.map(({ id, name, phone }) => (
-        <ContactsListItem key={id} id={id} name={name} phone={phone} />
-      ))}
-    </Contacts>
+  const visibleContacts = !contacts
+    ? []
+    : contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase())
+      );
+
+  return (
+    <>
+      {contacts?.length === 0 ? (
+        <p>No contacts yet</p>
+      ) : (
+        <>
+          <p>Total contacts: {visibleContacts.length}</p>
+          <ul>
+            {visibleContacts.map(({ id, name, number }) => (
+              <ContactsListItem key={id} id={id} name={name} number={number} />
+            ))}
+          </ul>
+        </>
+      )}
+    </>
   );
 };
-
-export default ContactsList;

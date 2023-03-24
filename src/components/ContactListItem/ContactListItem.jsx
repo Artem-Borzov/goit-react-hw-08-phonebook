@@ -1,27 +1,22 @@
 import React from 'react';
-import { Contact, DeleteBtn } from './ContactListItem.styled';
+import { useDeleteContactMutation } from 'redux/contacts/contactsSlice';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/operations';
 
-export const ContactsListItem = ({ name, phone, id }) => {
-  const dispatch = useDispatch();
+export const ContactsListItem = ({ name, number, id }) => {
+  const [deleteContact] = useDeleteContactMutation();
+
   return (
-    <Contact>
-      {name}: {phone}
-      <DeleteBtn
-        type="button"
-        id={id}
-        onClick={() => dispatch(deleteContact(id))}
-      >
+    <li>
+      {name}: {number}
+      <button type="button" id={id} onClick={() => deleteContact(id)}>
         Delete
-      </DeleteBtn>
-    </Contact>
+      </button>
+    </li>
   );
 };
 
 ContactsListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
 };
