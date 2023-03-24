@@ -9,14 +9,13 @@ const Contacts = () => {
     { count: 5 },
     { refetchOnMountOrArgChange: true }
   );
-
   return (
     <div>
-      <ContactForm />
+      <ContactForm data={data} />
       <h2>Contacts</h2>
       <Filter />
 
-      {data && <ContactsList />}
+      {data && <ContactsList data={data} />}
       {isFetching && !error && <Loader />}
     </div>
   );

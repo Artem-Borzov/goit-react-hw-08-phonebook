@@ -1,16 +1,13 @@
 import React from 'react';
-import {
-  useFetchContactsQuery,
-  useAddContactMutation,
-} from 'redux/contacts/contactsSlice';
+import { useAddContactMutation } from 'redux/contacts/contactsSlice';
 import { Form } from './Form/Form';
 
-export const ContactForm = ({ handleClose }) => {
+export const ContactForm = ({ data }) => {
   const [addContact] = useAddContactMutation();
-  const { data: contacts } = useFetchContactsQuery();
+  // const { data: contacts } = useFetchContactsQuery();
 
   const formSubmitHandler = contactToAdd => {
-    const nameMatches = contacts.find(
+    const nameMatches = data.find(
       contact => contact.name.toLowerCase() === contactToAdd.name.toLowerCase()
     );
 
